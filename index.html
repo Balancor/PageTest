@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Page test</title>
+    <style type="text/css">
+        body {
+            overflow: hidden;
+            width: 100%;
+            background-color: green;
+            padding: 0;
+            margin:0;
+        }
+
+        .section {
+            overflow: hidden;
+            width: 100%;
+            position:fixed;
+            margin: 0;
+            padding: 0;
+        }
+
+        .section1{
+            background-color: #ffff00;
+        }
+        .section2{
+            background-color: #ff00ff;
+        }
+
+    </style>
+
+    <script type="text/javascript">
+        var DEBUG = true;
+        var pageHeight = document.documentElement.clientHeight;
+        var firstPage;
+        var secondPage;
+        var isFirstPage = true;
+        var STEP_LENGTH = 20;
+        window.onload = function (){
+            var elements = document.getElementsByClassName("section");
+            firstPage = document.getElementsByClassName("section1")[0];
+            secondPage = document.getElementsByClassName("section2")[0];
+            //alert("height: "+document.documentElement.clientHeight);
+            var i = 0;
+            if(DEBUG)
+                console.log("numbers of section: "+elements.length);
+            for (i = 0; i < elements.length; i++){
+                var element = elements[i];
+                if(DEBUG)
+                    console.log("height: "+ document.documentElement.clientHeight);
+                element.style.height =  pageHeight + "px";
+                element.style.top = i * pageHeight + "px";
+
+            }
+        };
+
+
+        window.onmousewheel = function (event) {
+            if(DEBUG)
+                console.log("onmousewheel");
+            var wheelMoveUp = event.wheelDelta > 0 ? 0 : 1;
+
+            var firstPageYPosition = firstPage.offsetTop;
+            var secondPageYPosition = secondPage.offsetTop;
+
+
+            if(wheelMoveUp){
+                scrollToPrevious(wheelMoveUp);
+            } else {
+                scrollToNext(wheelMoveUp);
+            }
+        };
+
+        function scrollToPrevious(wheelMoveUp){
+            var firstPageYPosition = firstPage.offsetTop;
+            var secondPageYPosition = secondPage.offsetTop;
+
+            firstPageYPosition -= STEP_LENGTH;
+            secondPageYPosition -= STEP_LENGTH;
+
+            if(DEBUG)
+                console.log("firstPageYPosition: "+firstPageYPosition+", secondPageYPosition: "+secondPageYPosition);
+
+            if(!wheelMoveUp && firstPageYPosition > 0)return;
+            if(wheelMoveUp && secondPageYPosition < 0)return;
+
+
+            firstPage.style.top = firstPageYPosition + "px";
+            secondPage.style.top = secondPageYPosition + "px";
+
+        };
+
+        function scrollToNext(wheelMoveUp){
+            var firstPageYPosition = firstPage.offsetTop;
+            var secondPageYPosition = secondPage.offsetTop;
+
+            firstPageYPosition += STEP_LENGTH;
+            secondPageYPosition += STEP_LENGTH;
+
+            if(DEBUG)
+                console.log("firstPageYPosition: "+firstPageYPosition+", secondPageYPosition: "+secondPageYPosition);
+
+            if(!wheelMoveUp && firstPageYPosition > 0)return;
+            if(wheelMoveUp && secondPageYPosition < 0)return;
+
+
+            firstPage.style.top = firstPageYPosition + "px";
+            secondPage.style.top = secondPageYPosition + "px";
+        }
+
+    </script>
+
+</head>
+<body>
+
+
+<div class="section section1">
+    First Page
+</div>
+<div class="section section2">
+    Second Page
+</div>
+
+
+
+</body>
+</html>
