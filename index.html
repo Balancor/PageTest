@@ -28,14 +28,16 @@
         }
 
     </style>
-
+    <script type="application/javascript" src="js/utils.js"></script>
     <script type="text/javascript">
         var DEBUG = true;
         var pageHeight = document.documentElement.clientHeight;
         var firstPage;
         var secondPage;
         var isFirstPage = true;
-        var STEP_LENGTH = 20;
+        var STEP_LENGTH = 1;
+
+
         window.onload = function (){
             var elements = document.getElementsByClassName("section");
             firstPage = document.getElementsByClassName("section1")[0];
@@ -60,52 +62,29 @@
                 console.log("onmousewheel");
             var wheelMoveUp = event.wheelDelta > 0 ? 0 : 1;
 
-            var firstPageYPosition = firstPage.offsetTop;
-            var secondPageYPosition = secondPage.offsetTop;
 
 
             if(wheelMoveUp){
-                scrollToPrevious(wheelMoveUp);
+                scrollToNext();
             } else {
-                scrollToNext(wheelMoveUp);
+                scrollToPrevious();
             }
         };
 
-        function scrollToPrevious(wheelMoveUp){
-            var firstPageYPosition = firstPage.offsetTop;
-            var secondPageYPosition = secondPage.offsetTop;
-
-            firstPageYPosition -= STEP_LENGTH;
-            secondPageYPosition -= STEP_LENGTH;
-
+        function scrollToPrevious(){
             if(DEBUG)
-                console.log("firstPageYPosition: "+firstPageYPosition+", secondPageYPosition: "+secondPageYPosition);
+                Log.i("FirstDebug", "scrollToPrevious");
 
-            if(!wheelMoveUp && firstPageYPosition > 0)return;
-            if(wheelMoveUp && secondPageYPosition < 0)return;
-
-
-            firstPage.style.top = firstPageYPosition + "px";
-            secondPage.style.top = secondPageYPosition + "px";
-
+            firstPage.style.top = "0px";
+            secondPage.style.top = pageHeight + "px";
         };
 
-        function scrollToNext(wheelMoveUp){
-            var firstPageYPosition = firstPage.offsetTop;
-            var secondPageYPosition = secondPage.offsetTop;
-
-            firstPageYPosition += STEP_LENGTH;
-            secondPageYPosition += STEP_LENGTH;
-
+        function scrollToNext(){
             if(DEBUG)
-                console.log("firstPageYPosition: "+firstPageYPosition+", secondPageYPosition: "+secondPageYPosition);
+                Log.i("FirstDebug", "scrollToNext");
 
-            if(!wheelMoveUp && firstPageYPosition > 0)return;
-            if(wheelMoveUp && secondPageYPosition < 0)return;
-
-
-            firstPage.style.top = firstPageYPosition + "px";
-            secondPage.style.top = secondPageYPosition + "px";
+            firstPage.style.top =  (-pageHeight) +"px";
+            secondPage.style.top =  "0px";
         }
 
     </script>
